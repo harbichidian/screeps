@@ -10,14 +10,7 @@ module.exports.run = function(creep) {
 	
 	switch(creep.memory.task) {
 		case 'gathering':
-			var sources = creep.room.find(FIND_SOURCES).sort(function(a, b) {
-				let dta = Math.sqrt(Math.pow(Math.abs(creep.pos.x - a.pos.x), 2) + Math.pow(Math.abs(creep.pos.y - a.pos.y), 2));
-				let dtb = Math.sqrt(Math.pow(Math.abs(creep.pos.x - b.pos.x), 2) + Math.pow(Math.abs(creep.pos.y - b.pos.y), 2));
-				if(dta < dtb)  return -1;
-				if(dta == dtb) return  0;
-				if(dta > dtb)  return  1;
-			});
-			creep.memory.target = sources[0];
+			creep.memory.target = creep.pos.findClosestByRange(FIND_SOURCES);
 			if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) creep.moveTo(sources[0]);
 			break;
 		case 'delivering':
