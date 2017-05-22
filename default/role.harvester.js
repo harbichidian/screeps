@@ -11,7 +11,7 @@ module.exports.run = function(creep) {
 	switch(creep.memory.task) {
 		case 'gathering':
 			creep.memory.target = creep.pos.findClosestByRange(FIND_SOURCES);
-			if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) creep.moveTo(sources[0]);
+			if(creep.harvest(creep.memory.target) == ERR_NOT_IN_RANGE) creep.moveTo(creep.memory.target);
 			break;
 		case 'delivering':
 			var structures = creep.room.find(FIND_MY_STRUCTURES);
