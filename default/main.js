@@ -11,13 +11,12 @@ Memory.rolePercentages = {
 module.exports.loop = function() {
 	// Keep at least 5 creeps around
 	if(Object.keys(Game.creeps).length < 5) {
-		var creepToSpawn;
 		var underrepresentation = {};
 		Object.keys(Memory.rolePercentages).forEach(function(role) {
 			underrepresentation[role] = Object.keys(Game.creeps).filter(n => Game.creeps[n].role == role).length / Object.keys(Game.creeps).length;
 		});
 		
-		creepToSpawn = Memory.roles[Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop()];
+		var roleToSpawn = Memory.roles[Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop()];
 		
 		switch(Game.spawns["Spawn1"].canCreateCreep(Memory.roles[roleToSpawn].body)) {
 			case OK:
