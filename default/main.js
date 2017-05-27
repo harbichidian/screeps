@@ -31,6 +31,6 @@ module.exports.loop = function() {
 	}
 	
 	Object.keys(Game.creeps).forEach(function(n) {
-		Memory.roles[Game.creeps[n].memory.role].run(Game.creep[n]);
+		Memory.roles[Game.creeps[n].memory.role].run(Game.creeps[n]);
 	});
 }
