@@ -16,7 +16,7 @@ module.exports.loop = function() {
 			underrepresentation[role] = Object.keys(Game.creeps).filter(n => Game.creeps[n].role == role).length / Object.keys(Game.creeps).length;
 		});
 		
-		var roleToSpawn = Memory.roles[Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop()];
+		var roleToSpawn = Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop();
 		
 		switch(Game.spawns["Spawn1"].canCreateCreep(Memory.roles[roleToSpawn].body)) {
 			case OK:
