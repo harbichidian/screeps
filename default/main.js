@@ -1,23 +1,28 @@
-var roleHarvester = require('role.harvester');
-var roleGuard = require('role.guard');
+Memory.roles = {
+	harvester: require("role.harvester"),
+	guard: require("role.guard")
+};
+
+Memory.rolePercentages = {
+	harvester: 0.85,
+	guard: 0.15
+};
 
 module.exports.loop = function() {
-	// Recount the population
-	Memory.population = 0;
-	for(var name in Memory.creeps) {
-		// Clear old entities from memory
-		if(!Game.creeps[name]) delete Memory.creeps[name];
-		else Memory.population += 1;
-	}
-	
 	// Keep at least 5 creeps around
-	if(Memory.population < 5) {
-		var harvester = [MOVE, CARRY, WORK];
+	if(Game.creeps.length < 5) {
+		var creepToSpawn;
+		var underrepresentation = {};
+		Object.keys(Memory.rolePercentages).forEach(function(role) {
+			underrepresentation[role] = Game.creeps.filter(c => c.role == role).length / Game.creeps.length;
+		});
 		
-		switch(Game.spawns["Spawn1"].canCreateCreep(harvester)) {
+		creepToSpawn = Memory.roles[Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop()];
+		
+		switch(Game.spawns["Spawn1"].canCreateCreep(Memory.roles[roleToSpawn].body)) {
 			case OK:
-				console.log("Spawn1 spawning harvester");
-				Game.spawns['Spawn1'].createCreep(harvester, undefined, {role: 'harvester'});
+				console.log(`Spawn1 spawning ${roleToSpawn}`);
+				Game.spawns['Spawn1'].createCreep(Memory.roles[roleToSpawn].body, undefined, {role: roleToSpawn});
 				break;
 			case ERR_NOT_ENOUGH_ENERGY:
 				console.log("Spawn1 waiting for energy");
@@ -25,14 +30,7 @@ module.exports.loop = function() {
 		}
 	}
 	
-	for(var name in Game.creeps) {
-		switch(Game.creeps[name].memory.role) {
-			case 'harvester':
-				roleHarvester.run(Game.creeps[name]);
-				break;
-			case 'guard':
-				roleGuard.run(Game.creeps[name]);
-				break;
-		}
-	}
+	Game.creeps.forEach(function(creep) {
+		Memory.roles[creep.memory.role].run(creep);
+	});
 }

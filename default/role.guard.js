@@ -1,4 +1,5 @@
 module.exports = {
+	body: [MOVE, CARRY, WORK],
 	run: function(creep) {
 		creep.memory.target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS) || creep.pos.findClosestByRange(FIND_SOURCES);
 		
