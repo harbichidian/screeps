@@ -16,7 +16,7 @@ module.exports = {
 				break;
 			case "Source":
 				// Hover near sources, because that's probably where our creeps will be
-				if(creep.pos.getRangeTo(creep.memory.target) > 2) creep.moveTo(target);
+				if(creep.pos.getRangeTo(creep.memory.target) > 4) creep.moveTo(target);
 				break;
 		}
 	}
