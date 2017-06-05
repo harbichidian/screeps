@@ -9,12 +9,12 @@ var $rolePercentages = {
 };
 
 module.exports.loop = function() {
-	// Keep at least 5 creeps around
+	// Keep at least 10 creeps around
 	if(Object.keys(Game.creeps).length < 10) {
-		var underrepresentation = {};
-		Object.keys($rolePercentages).forEach(function(role) {
-			underrepresentation[role] = Object.keys(Game.creeps).filter(n => Game.creeps[n].role == role).length / Object.keys(Game.creeps).length;
-		});
+		var underrepresentation = Object.keys($rolePercentages).reduce(function(und, role) {
+			und[role] = Object.keys(Game.creeps).filter(n => Game.creeps[n].memory.role == role).length / Object.keys(Game.creeps).length;
+			return und;
+		}, {});
 		
 		var roleToSpawn = Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop();
 		
@@ -30,14 +30,14 @@ module.exports.loop = function() {
 	}
 	
 	Object.keys(Game.creeps).forEach(function(n) {
-	    console.log(`Running ${n}'s code, which is for role:${Game.creeps[n].memory.role}`);
-	    
+		console.log(`Running ${n}'s code, which is for role:${Game.creeps[n].memory.role}`);
+		
 		var role = $roles[Game.creeps[n].memory.role];
 		if(role.run) {
-		    role.run(Game.creeps[n]);
+			role.run(Game.creeps[n]);
 		}
 		else {
-		    console.log(`${Game.creeps[n].memory.role}.run was false`);
+			console.log(`${Game.creeps[n].memory.role}.run was false`);
 		}
 	});
 }
