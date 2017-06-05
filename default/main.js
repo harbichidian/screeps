@@ -11,8 +11,11 @@ var $rolePercentages = {
 module.exports.loop = function() {
 	// Keep at least 10 creeps around
 	if(Object.keys(Game.creeps).length < 10) {
-		var underrepresentation = Object.keys($rolePercentages).reduce(function(und, role) {
-			und[role] = Object.keys(Game.creeps).filter(n => Game.creeps[n].memory.role == role).length / Object.keys(Game.creeps).length;
+		Memory.underrepresentation = Object.keys($rolePercentages).reduce(function(und, role) {
+		    var creepsOfRole = Object.keys(Game.creeps).filter(n => Game.creeps[n].memory.role == role).length * 1.0;
+		    var totalCreeps = Object.keys(Game.creeps).length * 1.0;
+		    
+			und[role] = $rolePercentages[role] - (creepsOfRole / totalCreeps);
 			return und;
 		}, {});
 		
