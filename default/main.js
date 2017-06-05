@@ -19,7 +19,7 @@ module.exports.loop = function() {
 			return und;
 		}, {});
 		
-		var roleToSpawn = Object.keys(underrepresentation).sort((a, b) => underrepresentation[a] - underrepresentation[b]).pop();
+		var roleToSpawn = Object.keys(Memory.underrepresentation).sort((a, b) => Memory.underrepresentation[a] - Memory.underrepresentation[b]).pop();
 		
 		switch(Game.spawns["Spawn1"].canCreateCreep($roles[roleToSpawn].body)) {
 			case OK:
