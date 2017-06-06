@@ -1,4 +1,4 @@
-module.exports.body = [MOVE, ATTACK, ATTACK];
+module.exports.body = [MOVE, CARRY, WORK];
 
 module.exports.run = function(creep) {
 	if(creep.memory.task != 'gathering' && creep.carry.energy == 0) {
